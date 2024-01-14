@@ -19,13 +19,24 @@ public class UserService {
     }
 
     public void createUser(UserDto userDto) {
+        String username = userDto.getUsername();
+        if (!userRepository.existsByUsername(username)) {
+            UserEntity userEntity = new UserEntity();
+            userEntity.setUsername(userDto.getUsername());
+            userEntity.setPassword_hash(userDto.getPassword_hash());
+            userEntity.setEmail(userDto.getEmail());
+            userEntity.setRole(userDto.getRole());
 
+            UserEntity savedUserEntity = userRepository.save(userEntity);
+        } else {
+            throw new IllegalArgumentException("username already exists");
+        }
     }
 
     public UserDto readUserById(int id) {
         Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
 
-        if(optionalUserEntity.isPresent()) {
+        if (optionalUserEntity.isPresent()) {
             UserEntity userEntity = optionalUserEntity.orElseThrow();
 
             return new UserDto(

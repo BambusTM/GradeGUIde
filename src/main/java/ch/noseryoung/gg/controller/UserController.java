@@ -3,10 +3,7 @@ package ch.noseryoung.gg.controller;
 import ch.noseryoung.gg.dto.UserDto;
 import ch.noseryoung.gg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,7 +19,7 @@ public class UserController {
     }
 
     @PutMapping("/user")
-    public void create(UserDto userDto) {
+    public void create(@RequestBody UserDto userDto) {
         userService.createUser(userDto);
     }
 
