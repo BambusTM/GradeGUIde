@@ -1,6 +1,7 @@
 package ch.noseryoung.gg.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "\"user\"")
@@ -10,17 +11,22 @@ public class UserEntity {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
+    @NotBlank(message = "need this")
     private String username;
 
     @Column(name = "password_hash")
+    @NotBlank(message = "don't worry, it's save")
     private String password_hash;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
+    @NotBlank(message = "don't get lazy now")
     private String email;
 
     @Column(name = "role")
     private String role;
+
+    // Getters and Setters
 
     public int getId() {
         return id;

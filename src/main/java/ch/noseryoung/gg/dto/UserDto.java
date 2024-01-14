@@ -13,6 +13,8 @@ public class UserDto {
         this.role = role;
     }
 
+    // Getters and Setters
+
     public String getUsername() {
         return username;
     }
