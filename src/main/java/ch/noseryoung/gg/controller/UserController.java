@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
@@ -18,18 +18,28 @@ public class UserController {
         this.userService = service;
     }
 
-    @PutMapping("/user")
+    @PostMapping("/user")
     public void create(@RequestBody UserDto userDto) {
         userService.createUser(userDto);
     }
 
     @GetMapping("/user/{id}")
-    public UserDto readUserById(int id) {
+    public UserDto readUserById(@PathVariable int  id) {
         return userService.readUserById(id);
     }
 
     @GetMapping("/user/all")
     public List<UserDto> readAllUser() {
         return userService.readAllUser();
+    }
+
+    @PutMapping("/user/{id}")
+    public void updateUserById(@PathVariable int id, @RequestBody UserDto userDto) {
+        userService.updateUserById(id, userDto);
+    }
+
+    @DeleteMapping("/user/{id}")
+    public void deleteUserById(@PathVariable int id) {
+        userService.deleteUserById(id);
     }
 }

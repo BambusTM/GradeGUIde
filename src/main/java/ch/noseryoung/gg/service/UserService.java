@@ -3,7 +3,9 @@ package ch.noseryoung.gg.service;
 import ch.noseryoung.gg.dto.UserDto;
 import ch.noseryoung.gg.entity.UserEntity;
 import ch.noseryoung.gg.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,20 +36,23 @@ public class UserService {
     }
 
     public UserDto readUserById(int id) {
-        Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
+        try {
+            Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
 
-        if (optionalUserEntity.isPresent()) {
-            UserEntity userEntity = optionalUserEntity.orElseThrow();
+            if (optionalUserEntity.isPresent()) {
+                UserEntity userEntity = optionalUserEntity.orElseThrow();
 
-            return new UserDto(
-                    userEntity.getUsername(),
-                    userEntity.getPassword_hash(),
-                    userEntity.getEmail(),
-                    userEntity.getRole()
-            );
-        } else {
-            return null;
+                return new UserDto(
+                        userEntity.getUsername(),
+                        userEntity.getPassword_hash(),
+                        userEntity.getEmail(),
+                        userEntity.getRole()
+                );
+            }
+        } catch (EntityNotFoundException e) {
+            throw new NotFoundException("User with ID: " + id + " not found in database");
         }
+        return null;
     }
 
     public List<UserDto> readAllUser() {
@@ -62,5 +67,32 @@ public class UserService {
             );
         }).collect(Collectors.toList());
         return userDtoList;
+    }
+
+    public void updateUserById(int id, UserDto userDto) {
+        try {
+            Optional<UserEntity> existingEntityOptional = userRepository.findById(id);
+
+            UserEntity updatedEntity;
+            if (existingEntityOptional.isPresent()) {
+                UserEntity existingEntity = existingEntityOptional.get();
+                existingEntity.setUsername(userDto.getUsername());
+                existingEntity.setPassword_hash(userDto.getPassword_hash());
+                existingEntity.setEmail(userDto.getEmail());
+                existingEntity.setRole(userDto.getRole());
+
+                updatedEntity = userRepository.save(existingEntity);
+            }
+        } catch (EntityNotFoundException e) {
+            throw new NotFoundException("User with ID: " + id + " not found in database");
+        }
+    }
+
+    public void deleteUserById(int id) {
+        try {
+            userRepository.deleteById(id);
+        } catch (EntityNotFoundException e) {
+            throw new NotFoundException("User with ID: " + id + " not found in database");
+        }
     }
 }
