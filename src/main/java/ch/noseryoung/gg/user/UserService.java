@@ -1,8 +1,5 @@
-package ch.noseryoung.gg.service;
+package ch.noseryoung.gg.user;
 
-import ch.noseryoung.gg.dto.UserDto;
-import ch.noseryoung.gg.entity.UserEntity;
-import ch.noseryoung.gg.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;

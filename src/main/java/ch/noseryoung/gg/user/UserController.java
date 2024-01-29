@@ -1,7 +1,5 @@
-package ch.noseryoung.gg.controller;
+package ch.noseryoung.gg.user;
 
-import ch.noseryoung.gg.dto.UserDto;
-import ch.noseryoung.gg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

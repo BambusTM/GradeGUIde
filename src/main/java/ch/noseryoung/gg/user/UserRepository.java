@@ -1,6 +1,5 @@
-package ch.noseryoung.gg.repository;
+package ch.noseryoung.gg.user;
 
-import ch.noseryoung.gg.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {

@@ -1,6 +1,5 @@
-package ch.noseryoung.gg.repository;
+package ch.noseryoung.gg.grade;
 
-import ch.noseryoung.gg.entity.GradeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GradeRepository extends JpaRepository<GradeEntity, Integer> {

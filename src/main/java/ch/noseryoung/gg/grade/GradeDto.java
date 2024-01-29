@@ -1,4 +1,4 @@
-package ch.noseryoung.gg.dto;
+package ch.noseryoung.gg.grade;
 
 public class GradeDto {
     float grade;
