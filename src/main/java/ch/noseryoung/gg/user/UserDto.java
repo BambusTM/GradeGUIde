@@ -1,5 +1,8 @@
 package ch.noseryoung.gg.user;
 
+import lombok.Data;
+
+@Data
 public class UserDto {
     private String username;
     private String password_hash;

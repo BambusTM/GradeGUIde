@@ -22,7 +22,7 @@ public class UserService {
         if (!userRepository.existsByUsername(username)) {
             UserEntity userEntity = new UserEntity();
             userEntity.setUsername(userDto.getUsername());
-            userEntity.setPassword_hash(userDto.getPassword_hash());
+            userEntity.setPassword(userDto.getPassword_hash());
             userEntity.setEmail(userDto.getEmail());
             userEntity.setRole(userDto.getRole());
 
@@ -41,7 +41,7 @@ public class UserService {
 
                 return new UserDto(
                         userEntity.getUsername(),
-                        userEntity.getPassword_hash(),
+                        userEntity.getPassword(),
                         userEntity.getEmail(),
                         userEntity.getRole()
                 );
