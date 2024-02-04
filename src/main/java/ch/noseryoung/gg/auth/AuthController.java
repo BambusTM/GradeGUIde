@@ -19,7 +19,7 @@ public class AuthController {
   private final AuthService authService;
 
   @PostMapping("/register")
-  public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+  public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) throws Exception {
     String jwtToken = authService.register(request).getAccessToken();
     HttpHeaders headers = new HttpHeaders();
     headers.add("Authorization", "Access-Token " + jwtToken);
