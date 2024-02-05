@@ -31,15 +31,10 @@ public class AuthController {
       @RequestBody AuthRequest request) {
     AuthResponse authResponse = authService.authenticate(request);
     String jwtToken = authResponse.getAccessToken();
-    String refreshToken = authResponse.getRefreshToken();
     HttpHeaders headers = new HttpHeaders();
     headers.add(
         "Authorization",
         "Access-Token " + jwtToken
-    );
-    headers.add(
-        "Authorization",
-        "Refresh-Token " + refreshToken
     );
     return new ResponseEntity<>(headers, HttpStatus.OK);
   }
