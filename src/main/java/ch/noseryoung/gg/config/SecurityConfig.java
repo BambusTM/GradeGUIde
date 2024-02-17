@@ -28,6 +28,9 @@ public class SecurityConfig {
   private static final String[] WHITE_LIST_URL = {
           "/auth/register",
           "/auth/login",
+          "/v2/api-docs",
+          "/v3/api-docs",
+          "/v3/api-docs/**",
           "/swagger-resources",
           "/swagger-resources/**",
           "/swagger-ui/**"};
@@ -40,7 +43,6 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                             .requestMatchers(WHITE_LIST_URL).permitAll()
-                            .requestMatchers(DELETE, "/auth/**").hasAuthority("ADMIN")
                             .requestMatchers("/auth/**").permitAll()
                             .requestMatchers("/**").hasRole("STUDENT")
                             .anyRequest().authenticated()
@@ -58,4 +60,3 @@ public class SecurityConfig {
     return http.build();
   }
 }
-
