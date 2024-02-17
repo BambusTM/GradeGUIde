@@ -6,28 +6,24 @@ import ch.noseryoung.gg.user.Role;
 import ch.noseryoung.gg.user.UserRepository;
 import ch.noseryoung.gg.user.UserEntity;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.apache.catalina.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 @Service
 public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     public AuthService(UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
-                       JwtService jwtService,
                        AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
     }
 
@@ -46,28 +42,28 @@ public class AuthService {
     }
 
     public AuthResponse authenticate(AuthRequest request) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
+        } catch (Exception e) {
+            throw new NotFoundException("Invalid username or password");
+        }
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow();
+        UserEntity user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
-        var userEntity = (UserEntity) user;
-        var jwtToken = JwtService.generateToken(userEntity);
+        var jwtToken = JwtService.generateToken(user);
         return AuthResponse.builder()
                 .accessToken(jwtToken)
                 .build();
-    }
-
-    private AuthResponse getAuthResponse(UserEntity user) {
-        Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("role", user.getRole().toString());
-
-        String jwtToken = JwtService.generateToken(user); // extraClaims
-
-        return AuthResponse.builder().accessToken(jwtToken).build();
     }
 }
