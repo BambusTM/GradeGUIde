@@ -1,5 +1,9 @@
 package ch.noseryoung.gg.config;
 
+import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,8 +39,10 @@ public class SecurityConfig {
     http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                            .requestMatchers("/api/auth/**").permitAll()
-                            .requestMatchers("/api/**").hasRole("STUDENT")
+                            .requestMatchers(WHITE_LIST_URL).permitAll()
+                            .requestMatchers(DELETE, "/auth/**").hasAuthority("ADMIN")
+                            .requestMatchers("/auth/**").permitAll()
+                            .requestMatchers("/**").hasRole("STUDENT")
                             .anyRequest().authenticated()
             )
             .exceptionHandling(exception -> exception

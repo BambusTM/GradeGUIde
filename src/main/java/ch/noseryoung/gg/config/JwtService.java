@@ -54,8 +54,8 @@ public class JwtService {
      * @param userDetails the user details
      * @return the JWT token
      */
-    public static String createToken(UserDetails userDetails) {
-        return buildToken(new HashMap<>(), userDetails);
+    public static String generateToken(UserDetails userDetails) {
+        return generateToken(new HashMap<>(), userDetails);
     }
 
     /**
@@ -65,7 +65,7 @@ public class JwtService {
      * @param userDetails the user details
      * @return the JWT token
      */
-    public static String buildToken(
+    public static String generateToken(
             Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
                 .setClaims(extraClaims)
