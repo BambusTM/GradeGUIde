@@ -5,6 +5,7 @@ import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
 
+import ch.noseryoung.gg.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +42,7 @@ public class SecurityConfig {
             "/class/**",
             "/class/all",
             "/grade/**",
-            "/grade/all",
+            "/grade/**",
             "/**"
     };
 
@@ -54,11 +55,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(WHITE_LIST_URL).permitAll()
-                        .requestMatchers(GET,MAPPING).hasAuthority("STUDENT")
-                        .requestMatchers(POST,MAPPING).hasAuthority("TEACHER")
-                        .requestMatchers(PUT,MAPPING).hasAuthority("TEACHER")
-                        .requestMatchers(DELETE,MAPPING).hasAuthority("ADMIN")
-                        .requestMatchers("/hello").hasAuthority("STUDENT")
+                        .requestMatchers(GET,MAPPING).hasAuthority(Role.STUDENT.name())
+                        .requestMatchers(POST,MAPPING).hasAuthority(Role.TEACHER.name())
+                        .requestMatchers(PUT,MAPPING).hasAuthority(Role.TEACHER.name())
+                        .requestMatchers(DELETE,MAPPING).hasAuthority(Role.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
