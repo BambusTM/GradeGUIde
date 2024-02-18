@@ -30,6 +30,11 @@ public class ClassController {
         return classService.getAllClasses();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ClassDto.WithId> updateById(@PathVariable int id, @RequestBody ClassDto classDto) {
+        return classService.updateById(id, classDto);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable int id) {
         try {

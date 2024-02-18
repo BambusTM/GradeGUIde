@@ -60,6 +60,25 @@ public class ClassService {
         return classDtoList;
     }
 
+    public ResponseEntity<ClassDto.WithId> updateById(int id, ClassDto classDto) {
+        ClassEntity classEntity = classRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Class not found"));
+
+        UserEntity userEntity = userRepository.findById(classDto.getUserId())
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        classEntity.setClassName(classDto.getClassName());
+        classEntity.setUserId(userEntity);
+
+        ClassEntity updatedClassEntity = classRepository.save(classEntity);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ClassDto.WithId.builder()
+                .classId(updatedClassEntity.getClassId())
+                .userId(updatedClassEntity.getUserId().getUserId())
+                .className(updatedClassEntity.getClassName())
+                .build());
+    }
+
     public void deleteById(int id) {
         classRepository.deleteById(id);
     }
