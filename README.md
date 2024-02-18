@@ -1,0 +1,3 @@
+Disclaimer, the code of this looks terrible because who has the time...
+
+Only me and the lord know how this even works so you better give me a pay raise :)
