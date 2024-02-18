@@ -41,7 +41,7 @@ public class GradeController {
         } else if (isTeacher(SecurityContextHolder.getContext().getAuthentication())) {
             return gradeService.getAllGrades();
         }
-        return gradeService.getAllGrades();
+        throw new RuntimeException("Unauthorized");
     }
 
     @PutMapping("/{id}")
