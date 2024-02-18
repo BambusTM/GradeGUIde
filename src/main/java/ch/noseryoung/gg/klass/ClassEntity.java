@@ -7,14 +7,13 @@ import jakarta.persistence.*;
 @Table(name = "class")
 public class ClassEntity {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
-
-    @Column(name = "class_name")
-    private String class_name;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "class_id")
+    private int classId;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    private UserEntity teacher_id;
+    @JoinColumn(name = "user_id")
+    private UserEntity userId;
+
+    private String className;
 }

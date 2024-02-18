@@ -20,16 +20,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "users")
 public class UserEntity implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    private Integer userId;
 
     @Column(unique = true)
     private String username;
 
     private String password;
-
     private String email;
 
     @Enumerated(EnumType.STRING)
@@ -44,27 +42,22 @@ public class UserEntity implements UserDetails {
     public String getUsername() {
         return username;
     }
-
     @Override
     public String getPassword() {
         return password;
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
     @Override
     public boolean isEnabled() {
         return true;

@@ -1,11 +1,15 @@
 package ch.noseryoung.gg.klass;
 
-public class ClassDto {
-    String class_name;
-    int teacher_Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public ClassDto(String class_name, int teacher_Id) {
-        this.class_name = class_name;
-        this.teacher_Id = teacher_Id;
-    }
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ClassDto {
+    private int userId;
+    private String className;
 }

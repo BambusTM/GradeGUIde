@@ -1,13 +1,18 @@
 package ch.noseryoung.gg.grade;
 
-public class GradeDto {
-    float grade;
-    String student_id;
-    String class_id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public GradeDto(float grade, String student_id, String class_id) {
-        this.grade = grade;
-        this.student_id = student_id;
-        this.class_id = class_id;
-    }
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class GradeDto {
+    private String userId;
+    private String classId;
+    private float grade;
+    private String comment;
+    private String date;
 }
