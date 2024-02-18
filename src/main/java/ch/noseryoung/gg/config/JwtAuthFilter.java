@@ -4,9 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +34,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        final String authHeader = request.getHeader("Authorization"); // contains the JWT token
+        final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String role;
         final String username;
@@ -47,8 +45,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        username = jwtService.extractUsername(jwt);
-        role = jwtService.extractRole(jwt);
+        username = JwtService.extractUsername(jwt);
+        role = JwtService.extractRole(jwt);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null && role != null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 

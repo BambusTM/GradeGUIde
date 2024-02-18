@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum Role {
+    ADMIN,
     TEACHER,
     STUDENT
 }

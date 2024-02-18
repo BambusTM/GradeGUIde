@@ -43,8 +43,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                             .requestMatchers(WHITE_LIST_URL).permitAll()
-                            .requestMatchers("/auth/**").permitAll()
-                            .requestMatchers("/**").hasRole("STUDENT")
+                            .requestMatchers("/hello").hasRole("STUDENT")
                             .anyRequest().authenticated()
             )
             .exceptionHandling(exception -> exception
