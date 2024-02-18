@@ -31,7 +31,7 @@ public class GradeController {
         }
 
         @PutMapping("/{id}")
-        public ResponseEntity<GradeDto.WithId> updateById(@PathVariable Integer id, @RequestBody GradeDto gradeDto) {
+        public ResponseEntity<GradeDto.WithId> updateById(@PathVariable int id, @RequestBody GradeDto gradeDto) {
             return gradeService.updateById(id, gradeDto);
         }
 
