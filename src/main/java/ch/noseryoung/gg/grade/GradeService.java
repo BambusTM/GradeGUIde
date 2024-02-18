@@ -28,12 +28,17 @@ public class GradeService {
         ClassEntity classEntity = classRepository.findById(gradeDto.getClassId())
                 .orElseThrow(() -> new NotFoundException("Class not found"));
 
-        UserEntity userEntity = userRepository.findById(gradeDto.getUserId())
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        UserEntity studentEntity = userRepository.findById(gradeDto.getStudentId())
+                .orElseThrow(() -> new NotFoundException("Student not found"));
+
+        UserEntity teacherEntity = userRepository.findById(gradeDto.getTeacherId())
+                .orElseThrow(() -> new NotFoundException("Teacher not found"));
+
 
         GradeEntity newEntity = new GradeEntity();
         newEntity.setClassId(classEntity);
-        newEntity.setUserId(userEntity);
+        newEntity.setStudentId(studentEntity);
+        newEntity.setTeacherId(teacherEntity);
         newEntity.setGrade(gradeDto.getGrade());
         newEntity.setComment(gradeDto.getComment());
         newEntity.setDate(gradeDto.getDate());
@@ -43,7 +48,8 @@ public class GradeService {
         return ResponseEntity.status(HttpStatus.CREATED).body(GradeDto.WithId.builder()
                 .gradeId(savedGradeEntity.getGradeId())
                 .classId(savedGradeEntity.getClassId().getClassId())
-                .userId(savedGradeEntity.getUserId().getUserId())
+                .studentId(savedGradeEntity.getStudentId().getUserId())
+                .teacherId(savedGradeEntity.getTeacherId().getUserId())
                 .grade(savedGradeEntity.getGrade())
                 .comment(savedGradeEntity.getComment())
                 .date(savedGradeEntity.getDate())
@@ -73,11 +79,15 @@ public class GradeService {
         ClassEntity classEntity = classRepository.findById(gradeDto.getClassId())
                 .orElseThrow(() -> new NotFoundException("Class not found"));
 
-        UserEntity userEntity = userRepository.findById(gradeDto.getUserId())
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        UserEntity studentEntity = userRepository.findById(gradeDto.getStudentId())
+                .orElseThrow(() -> new NotFoundException("Student not found"));
+
+        UserEntity teacherEntity = userRepository.findById(gradeDto.getTeacherId())
+                .orElseThrow(() -> new NotFoundException("Teacher not found"));
 
         gradeEntity.setClassId(classEntity);
-        gradeEntity.setUserId(userEntity);
+        gradeEntity.setStudentId(studentEntity);
+        gradeEntity.setTeacherId(teacherEntity);
         gradeEntity.setGrade(gradeDto.getGrade());
         gradeEntity.setComment(gradeDto.getComment());
         gradeEntity.setDate(gradeDto.getDate());
@@ -87,7 +97,8 @@ public class GradeService {
         return ResponseEntity.status(HttpStatus.OK).body(GradeDto.WithId.builder()
                 .gradeId(updatedGradeEntity.getGradeId())
                 .classId(updatedGradeEntity.getClassId().getClassId())
-                .userId(updatedGradeEntity.getUserId().getUserId())
+                .studentId(updatedGradeEntity.getStudentId().getUserId())
+                .teacherId(updatedGradeEntity.getTeacherId().getUserId())
                 .grade(updatedGradeEntity.getGrade())
                 .comment(updatedGradeEntity.getComment())
                 .date(updatedGradeEntity.getDate())
@@ -101,7 +112,8 @@ public class GradeService {
     private GradeDto.WithId getGradeDtoWithId(GradeEntity gradeEntity) {
         GradeDto.WithId gradeDto = new GradeDto.WithId();
         BeanUtils.copyProperties(gradeEntity, gradeDto);
-        gradeDto.setUserId(gradeEntity.getUserId().getUserId());
+        gradeDto.setStudentId(gradeEntity.getStudentId().getUserId());
+        gradeDto.setTeacherId(gradeEntity.getTeacherId().getUserId());
         gradeDto.setClassId(gradeEntity.getClassId().getClassId());
         return gradeDto;
     }

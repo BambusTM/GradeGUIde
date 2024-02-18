@@ -21,8 +21,12 @@ public class GradeEntity {
     private int gradeId;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private UserEntity userId;
+    @JoinColumn(name = "student_id")
+    private UserEntity studentId;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_id")
+    private UserEntity teacherId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "class_id")

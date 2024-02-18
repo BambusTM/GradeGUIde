@@ -9,7 +9,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class GradeDto {
     private int classId;
-    private int userId;
+    private int studentId;
+    private int teacherId;
     private float grade;
     private String comment;
     private String date;
