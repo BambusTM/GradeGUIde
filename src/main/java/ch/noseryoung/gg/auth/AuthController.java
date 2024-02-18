@@ -16,10 +16,16 @@ public class AuthController {
 
   private final AuthService authService;
 
-  @PostMapping("/register")
-  public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+  @PostMapping("/register/student")
+  public ResponseEntity<AuthResponse> registerStudent(@RequestBody RegisterRequest request) {
 
-    return ResponseEntity.ok(authService.register(request));
+    return ResponseEntity.ok(authService.registerStudent(request));
+  }
+
+  @PostMapping("/register/teacher")
+  public ResponseEntity<AuthResponse> registerTeacher(@RequestBody RegisterRequest request) {
+
+    return ResponseEntity.ok(authService.registerTeacher(request));
   }
 
   @PostMapping("/login")

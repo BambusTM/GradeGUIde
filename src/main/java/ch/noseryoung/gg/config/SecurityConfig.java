@@ -28,7 +28,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig {
 
     private static final String[] WHITE_LIST_URL = {
-            "/auth/register",
+            "/auth/register/student",
             "/auth/login",
             "/v2/api-docs",
             "/v3/api-docs",
@@ -59,6 +59,7 @@ public class SecurityConfig {
                         .requestMatchers(POST,MAPPING).hasAuthority(Role.TEACHER.name())
                         .requestMatchers(PUT,MAPPING).hasAuthority(Role.TEACHER.name())
                         .requestMatchers(DELETE,MAPPING).hasAuthority(Role.ADMIN.name())
+                        .requestMatchers(POST,"/auth/register/teacher").hasAuthority(Role.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception

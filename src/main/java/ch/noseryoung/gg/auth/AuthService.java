@@ -25,12 +25,26 @@ public class AuthService {
         this.authenticationManager = authenticationManager;
     }
 
-    public AuthResponse register(RegisterRequest request) {
+    public AuthResponse registerStudent(RegisterRequest request) {
         var user = UserEntity.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.STUDENT)
+                .build();
+        userRepository.save(user);
+        var jwtToken = JwtService.generateToken(user);
+        return AuthResponse.builder()
+                .accessToken(jwtToken)
+                .build();
+    }
+
+    public AuthResponse registerTeacher(RegisterRequest request) {
+        var user = UserEntity.builder()
+                .username(request.getUsername())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.TEACHER)
                 .build();
         userRepository.save(user);
         var jwtToken = JwtService.generateToken(user);
