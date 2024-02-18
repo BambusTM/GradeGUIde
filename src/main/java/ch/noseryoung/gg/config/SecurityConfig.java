@@ -30,6 +30,10 @@ public class SecurityConfig {
             "/swagger-resources",
             "/swagger-resources/**",
             "/swagger-ui/**"};
+    private static final String[] TEMP_WHITE = {
+            "/class/**",
+            "/class/all"};
+
     private final JwtAuthFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
@@ -39,7 +43,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(WHITE_LIST_URL).permitAll()
-                        .requestMatchers("/class").permitAll()
+                        .requestMatchers(TEMP_WHITE).permitAll() // remove later
                         .requestMatchers("/hello").hasRole("STUDENT")
                         .anyRequest().authenticated()
                 )

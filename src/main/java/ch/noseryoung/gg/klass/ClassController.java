@@ -3,10 +3,9 @@ package ch.noseryoung.gg.klass;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,7 +16,26 @@ public class ClassController {
     private final ClassService classService;
 
     @PostMapping()
-    public ResponseEntity<ClassEntity> create(@RequestParam ClassDto classDto) {
+    public ResponseEntity<ClassDto.WithId> create(@RequestBody ClassDto classDto) {
         return classService.create(classDto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClassDto.WithId> getById(@PathVariable int id) {
+        return classService.getById(id);
+    }
+
+    @GetMapping("/all")
+    public List<ClassDto.WithId> getAll() {
+        return classService.getAllClasses();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable int id) {
+        try {
+            classService.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Could not delete class");
+        }
     }
 }
