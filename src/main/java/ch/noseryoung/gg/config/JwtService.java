@@ -6,7 +6,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 public class JwtService {
 
     private static final String SECRET_KEY = "3763432a2c277049365e597245742c79642a563940425027386566234b";
-    private static final long JWT_EXPIRATION = 86400000; // 24 hours in milliseconds
+    private static final long JWT_EXPIRATION = 86400000; // 24 hours
 
     public static String generateToken(UserDetails userDetails) {
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
@@ -37,8 +36,7 @@ public class JwtService {
     }
 
     public static String extractRole(String jwtToken) {
-        Claims claims = extractClaims(jwtToken);
-        return claims.get("roles", String.class);
+        return (String) extractClaims(jwtToken).get("roles");
     }
 
     public boolean isTokenValid(String jwtToken, UserDetails userDetails) {

@@ -1,6 +1,5 @@
 package ch.noseryoung.gg.auth;
 
-
 import ch.noseryoung.gg.config.JwtService;
 import ch.noseryoung.gg.user.Role;
 import ch.noseryoung.gg.user.UserRepository;
