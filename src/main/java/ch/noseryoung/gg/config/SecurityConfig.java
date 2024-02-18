@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(WHITE_LIST_URL).permitAll()
+                        .requestMatchers("/class").permitAll()
                         .requestMatchers("/hello").hasRole("STUDENT")
                         .anyRequest().authenticated()
                 )

@@ -2,7 +2,15 @@ package ch.noseryoung.gg.klass;
 
 import ch.noseryoung.gg.user.UserEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "class")
 public class ClassEntity {
