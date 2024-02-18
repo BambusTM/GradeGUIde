@@ -41,10 +41,13 @@ public class ClassService {
                 .build());
     }
 
-    public ResponseEntity<ClassDto.WithId> getById(int id) {
-        ClassEntity classEntity = classRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Class not found"));
-        return ResponseEntity.ok(getClasses(classEntity));
+    public ClassDto.WithId getById(int id) {
+        try {
+            return classRepository.findById(id).map(this::getClasses)
+                    .orElseThrow(() -> new NotFoundException("Class not found"));
+        } catch (Exception e) {
+            throw new NotFoundException("Class not found");
+        }
     }
 
     public List<ClassDto.WithId> getAllClasses() {

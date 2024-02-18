@@ -21,7 +21,7 @@ public class ClassController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClassDto.WithId> getById(@PathVariable int id) {
+    public ClassDto.WithId getById(@PathVariable int id) {
         return classService.getById(id);
     }
 
