@@ -6,7 +6,6 @@ import ch.noseryoung.gg.user.Role;
 import ch.noseryoung.gg.user.UserRepository;
 import ch.noseryoung.gg.user.UserEntity;
 
-import org.apache.catalina.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,12 +51,6 @@ public class AuthService {
         } catch (Exception e) {
             throw new NotFoundException("Invalid username or password");
         }
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
-        );
         UserEntity user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
