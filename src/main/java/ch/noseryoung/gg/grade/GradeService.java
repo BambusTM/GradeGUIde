@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,15 +59,37 @@ public class GradeService {
                 .build());
     }
 
+    public GradeDto.WithId getMyGradeById(int id) {
+        int currentUserId = getCurrentUserId();
+        GradeEntity gradeEntity = gradeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Grade not found"));
+
+        if (gradeEntity.getStudentId().getUserId() != currentUserId) {
+            throw new NotFoundException("You don't have a grade with this id");
+        }
+        return getGradeDtoWithId(gradeEntity);
+    }
+
     public GradeDto.WithId getById(int id) {
         return gradeRepository.findById(id)
                 .map(this::getGradeDtoWithId)
                 .orElseThrow(() -> new NotFoundException("Grade not found"));
     }
 
+    public List<GradeDto.WithId> getAllMyGrades() {
+        int currentUserId = getCurrentUserId();
+        List<GradeDto.WithId> gradeDtoList = gradeRepository.findAllByStudentIdUserId(currentUserId).stream()
+                .map(gradeEntity -> getGradeDtoWithId((GradeEntity) gradeEntity))
+                .collect(Collectors.toList());
+        if (gradeDtoList.isEmpty()) {
+            throw new NotFoundException("No grades found");
+        }
+        return gradeDtoList;
+    }
+
     public List<GradeDto.WithId> getAllGrades() {
         List<GradeDto.WithId> gradeDtoList = gradeRepository.findAll().stream()
-                .map(this::getGradeDtoWithId)
+                .map(gradeEntity -> getGradeDtoWithId((GradeEntity) gradeEntity))
                 .collect(Collectors.toList());
         if (gradeDtoList.isEmpty()) {
             throw new NotFoundException("No grades found");
@@ -116,5 +141,13 @@ public class GradeService {
         gradeDto.setTeacherId(gradeEntity.getTeacherId().getUserId());
         gradeDto.setClassId(gradeEntity.getClassId().getClassId());
         return gradeDto;
+    }
+
+    private int getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+        return user.getUserId();
     }
 }
