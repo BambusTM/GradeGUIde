@@ -22,7 +22,7 @@ public class GradeEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private UserEntity studentId;
+    private UserEntity userId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "class_id")
