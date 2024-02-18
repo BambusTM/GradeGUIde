@@ -1,5 +1,10 @@
 package ch.noseryoung.gg.config;
 
+import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,9 +35,7 @@ public class SecurityConfig {
             "/swagger-resources",
             "/swagger-resources/**",
             "/swagger-ui/**"};
-    private static final String[] TEMP_WHITE = {
-            "/class/**",
-            "/class/all"};
+
 
     private final JwtAuthFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -43,8 +46,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(WHITE_LIST_URL).permitAll()
-                        .requestMatchers(TEMP_WHITE).permitAll() // remove later
-                        .requestMatchers("/hello").hasRole("STUDENT")
+                        .requestMatchers(GET,"/**").hasAuthority("STUDENT")
+                        .requestMatchers(POST,"/**").hasAuthority("TEACHER")
+                        .requestMatchers(PUT,"/**").hasAuthority("TEACHER")
+                        .requestMatchers(DELETE,"/**").hasAuthority("ADMIN")
+                        .requestMatchers("/hello").hasAuthority("STUDENT")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
