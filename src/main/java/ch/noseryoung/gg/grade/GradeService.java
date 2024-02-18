@@ -4,6 +4,7 @@ import ch.noseryoung.gg.klass.ClassEntity;
 import ch.noseryoung.gg.klass.ClassRepository;
 import ch.noseryoung.gg.user.UserEntity;
 import ch.noseryoung.gg.user.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class GradeService {
 
@@ -62,6 +64,34 @@ public class GradeService {
             throw new NotFoundException("No grades found");
         }
         return gradeDtoList;
+    }
+
+    public ResponseEntity<GradeDto.WithId> updateById(int id, GradeDto gradeDto) {
+        GradeEntity gradeEntity = gradeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Grade not found"));
+
+        ClassEntity classEntity = classRepository.findById(gradeDto.getClassId())
+                .orElseThrow(() -> new NotFoundException("Class not found"));
+
+        UserEntity userEntity = userRepository.findById(gradeDto.getUserId())
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        gradeEntity.setClassId(classEntity);
+        gradeEntity.setUserId(userEntity);
+        gradeEntity.setGrade(gradeDto.getGrade());
+        gradeEntity.setComment(gradeDto.getComment());
+        gradeEntity.setDate(gradeDto.getDate());
+
+        GradeEntity updatedGradeEntity = gradeRepository.save(gradeEntity);
+
+        return ResponseEntity.status(HttpStatus.OK).body(GradeDto.WithId.builder()
+                .gradeId(updatedGradeEntity.getGradeId())
+                .classId(updatedGradeEntity.getClassId().getClassId())
+                .userId(updatedGradeEntity.getUserId().getUserId())
+                .grade(updatedGradeEntity.getGrade())
+                .comment(updatedGradeEntity.getComment())
+                .date(updatedGradeEntity.getDate())
+                .build());
     }
 
     public void deleteById(int id) {

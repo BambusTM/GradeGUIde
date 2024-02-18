@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/grade")
-@Tag(name = "grade")
+@Tag(name = "Grade")
 public class GradeController {
 
         private final GradeService gradeService;
@@ -28,6 +28,11 @@ public class GradeController {
         @GetMapping
         public List<GradeDto.WithId> getAllGrades() {
             return gradeService.getAllGrades();
+        }
+
+        @PutMapping("/{id}")
+        public ResponseEntity<GradeDto.WithId> updateById(@PathVariable int id, @RequestBody GradeDto gradeDto) {
+            return gradeService.updateById(id, gradeDto);
         }
 
         @DeleteMapping("/{id}")

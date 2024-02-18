@@ -34,7 +34,16 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/swagger-resources",
             "/swagger-resources/**",
-            "/swagger-ui/**"};
+            "/swagger-ui/**"
+    };
+
+    private static final String[] MAPPING = {
+            "/class/**",
+            "/class/all",
+            "/grade/**",
+            "/grade/all",
+            "/**"
+    };
 
     private final JwtAuthFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -45,10 +54,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(WHITE_LIST_URL).permitAll()
-                        .requestMatchers(GET,"/**").hasAuthority("STUDENT")
-                        .requestMatchers(POST,"/**").hasAuthority("TEACHER")
-                        .requestMatchers(PUT,"/**").hasAuthority("TEACHER")
-                        .requestMatchers(DELETE,"/**").hasAuthority("ADMIN")
+                        .requestMatchers(GET,MAPPING).hasAuthority("STUDENT")
+                        .requestMatchers(POST,MAPPING).hasAuthority("TEACHER")
+                        .requestMatchers(PUT,MAPPING).hasAuthority("TEACHER")
+                        .requestMatchers(DELETE,MAPPING).hasAuthority("ADMIN")
                         .requestMatchers("/hello").hasAuthority("STUDENT")
                         .anyRequest().authenticated()
                 )
